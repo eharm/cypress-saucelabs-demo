@@ -8,7 +8,9 @@ export default defineConfig({
     viewportHeight: 1080,
     env: {
       username: "standard_user",
-      password: "secret_sauce"
+      password: "secret_sauce",
+      dataTag: "data-test"
+
     },
     setupNodeEvents(on, config) {
       // implement node event listeners here
