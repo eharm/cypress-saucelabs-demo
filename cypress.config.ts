@@ -6,6 +6,10 @@ export default defineConfig({
     specPattern: '**/*.cy.ts',
     viewportWidth: 1920,
     viewportHeight: 1080,
+    env: {
+      username: "standard_user",
+      password: "secret_sauce"
+    },
     setupNodeEvents(on, config) {
       // implement node event listeners here
     },
