@@ -9,8 +9,8 @@ export default defineConfig({
     env: {
       username: "standard_user",
       password: "secret_sauce",
-      dataTag: "data-test"
-
+      dataTag: "data-test",
+      hideXHR: true
     },
     setupNodeEvents(on, config) {
       // implement node event listeners here
