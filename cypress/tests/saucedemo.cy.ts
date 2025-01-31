@@ -40,4 +40,80 @@ describe('saucedemo e-commerce platform', () => {
             .children()
             .should('have.length', 0);
     })
+
+    it('Confirm Cart Contents', () => {
+        let name: string;
+        let description: string;
+        let price: string;
+        
+        cy.getByDataTag('inventory-item')
+            .first()
+            .within(() => {
+                // Get name, price, and description for first item on page
+                cy.getByDataTag('inventory-item-name')
+                    .invoke('text')
+                    .invoke('trim')
+                    .then((nm) => {
+                        name = nm;
+                    });
+
+                cy.getByDataTag('inventory-item-price')
+                    .invoke('text')
+                    .invoke('trim')
+                    .then((priceStr) => {
+                        price = priceStr;
+                    });
+                
+                cy.getByDataTag('inventory-item-desc')
+                    .invoke('text')
+                    .invoke('trim')
+                    .then((desc) => {
+                        description = desc;
+                    });
+
+                cy.getByDataTag('add-to-cart-', { search: 'startsWith' }).click();
+            })
+
+            // Open the cart and confirm URL redirect
+            cy.getByDataTag('shopping-cart-link').click();
+            cy.location('pathname').should('eq', '/cart.html');
+
+            // Confirm data on page matches item selected previously
+            cy.getByDataTag('inventory-item-name')
+                .invoke('text')
+                .should((elName: string) => {
+                    Cypress.Promise.resolve(name)
+                        .then((savedName) => {
+                            expect(elName).to.eq(savedName);
+                        })
+                });
+
+            cy.getByDataTag('inventory-item-desc')
+                .invoke('text')
+                .should((elDesc: string) => {
+                    Cypress.Promise.resolve(description)
+                        .then((savedDesc) => {
+                            expect(elDesc).to.eq(savedDesc);
+                        })
+                });
+
+            cy.getByDataTag('inventory-item-price')
+                .invoke('text')
+                .should((elPrice: string) => {
+                    Cypress.Promise.resolve(price)
+                        .then((savedPrice) => {
+                            expect(elPrice).to.eq(savedPrice);
+                        })
+                })
+
+            // Click remove item and confirm it's gone
+            cy.getByDataTag('remove-', { search: 'startsWith' }).click();
+            cy.getByDataTag('inventory-item').should('not.exist');
+
+            // Go back to inventory and confirm redirect
+            cy.getByDataTag('continue-shopping')
+                .should('contain.text', 'Continue Shopping')
+                .click();
+            cy.location('pathname').should('eq', '/inventory.html');
+    })
 })
