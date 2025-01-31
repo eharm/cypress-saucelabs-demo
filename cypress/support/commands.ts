@@ -60,3 +60,15 @@ Cypress.Commands.add(
         return cy.getByAttribute(Cypress.env('dataTag'), value, options);
     }
 )
+
+// NOTE: session caching does not work with this application.
+Cypress.Commands.add(
+    "login",
+    (username: string = Cypress.env('username'), password: string = Cypress.env('password')) => {
+        cy.visit('/');
+        cy.getByDataTag('username').type(username);
+        cy.getByDataTag('password').type(password);
+        cy.getByDataTag('login-button').click();
+        cy.location('pathname').should('eq', '/inventory.html');            
+    }
+)

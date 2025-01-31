@@ -1,9 +1,9 @@
 describe('saucedemo e-commerce platform', () => {
     beforeEach(() => {
-        cy.visit('/');
+        cy.login();
     })
 
     it('Log in to saucelabs', () => {
-        
+        cy.log('successful login and redirect');
     })
 })

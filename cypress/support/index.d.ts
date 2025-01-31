@@ -23,5 +23,12 @@ declare namespace Cypress {
             value: string,
             options?: Partial<Cypress.Loggable & Cypress.Timeoutable & Cypress.Withinable & Cypress.Shadow & { search: 'contains' | 'startsWith' | 'endsWith' }>
         ): Cypress.Chainable<Cypress.JQueryWithSelector<HTMLElement>>;
+        /**
+         * Logs into the application with a username and password. These default to the creds in the cypress.config.ts
+         * but can be overwritten.
+         * @param username username to log in with. Defaults to Cypress.env('username') value.
+         * @param password password to log in with. Defaults to Cypress.env('password') value.
+         */
+        login(username?: string, password?: string): void;
     }
 }
